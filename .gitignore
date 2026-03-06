@@ -17,6 +17,9 @@ plan
 *.plan
 destroy
 
+# Lambda
+lambda.zip
+
 # Rust
 target/
 Cargo.lock
@@ -47,3 +50,6 @@ pip-delete-this-directory.txt
 # OS
 .DS_Store
 Thumbs.db
+
+# Environment
+.env

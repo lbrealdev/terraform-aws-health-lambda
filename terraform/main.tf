@@ -2,20 +2,6 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-
-#####################################
-# AWS EventBridge Rule
-#####################################
-
-resource "aws_cloudwatch_event_rule" "health_notifier" {
-  name        = var.eventbridge_rule_name
-  description = var.eventbridge_rule_description
-
-  event_pattern = jsonencode({
-    "source" : ["aws.health"]
-  })
-}
-
 #####################################
 # AWS Lambda Function resouces
 #####################################
@@ -71,40 +57,67 @@ resource "aws_iam_policy" "lambda_health_iam_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
+resource "aws_iam_role_policy_attachment" "lambda_health_iam_attachment" {
   role       = aws_iam_role.lambda_health_iam_role.name
   policy_arn = aws_iam_policy.lambda_health_iam_policy.arn
 }
 
-# resource "aws_lambda_function" "lambda_health" {
-#   function_name = var.function_name
-#   role          = aws_iam_role.this.arn
-#   memory_size   = var.memory_size
-#   publish       = var.publish
-#   timeout       = var.timeout
-#
-#   handler = var.handler
-#   runtime = var.runtime
-#
-#   s3_bucket         = aws_s3_object.this.bucket
-#   s3_key            = aws_s3_object.this.key
-#   s3_object_version = aws_s3_object.this.version_id
-#
-#   logging_config {
-#     log_group             = aws_cloudwatch_log_group.this.name
-#     log_format            = "JSON"
-#     application_log_level = "INFO"
-#     system_log_level      = "INFO"
-#   }
-#
-#   environment {
-#     variables = {
-#       ETHERSCAN_API_KEY = var.etherscan_api_key
-#     }
-#   }
-#
-#   depends_on = [
-#     aws_cloudwatch_log_group.this,
-#     aws_iam_role.this
-#   ]
-# }
+resource "aws_lambda_function" "lambda_health" {
+  function_name = var.function_name
+  role          = aws_iam_role.lambda_health_iam_role.arn
+  memory_size   = var.memory_size
+  publish       = var.publish
+  timeout       = var.timeout
+
+  runtime = var.runtime
+  handler = var.handler
+
+  filename = var.lambda_zip_path
+
+  environment {
+    variables = {
+      GITHUB_TOKEN = var.github_token
+      GITHUB_OWNER = var.github_owner
+      GITHUB_REPO  = var.github_repo
+    }
+  }
+
+  logging_config {
+    log_group             = aws_cloudwatch_log_group.lambda_health_cw_lg.name
+    log_format            = "JSON"
+    application_log_level = "INFO"
+    system_log_level      = "INFO"
+  }
+
+  depends_on = [
+    aws_cloudwatch_log_group.lambda_health_cw_lg,
+    aws_iam_role.lambda_health_iam_role
+  ]
+}
+
+resource "aws_lambda_permission" "allow_eventbridge" {
+  statement_id  = "AllowExecutionFromEventBridge"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_health.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.health_notifier_event_rule.arn
+}
+
+#####################################
+# AWS EventBridge Rule
+#####################################
+
+resource "aws_cloudwatch_event_rule" "health_notifier_event_rule" {
+  name        = var.event_rule_name
+  description = var.event_rule_description
+
+  event_pattern = jsonencode({
+    "source" : ["aws.health"]
+  })
+}
+
+resource "aws_cloudwatch_event_target" "health_notifier_event_target" {
+  rule      = aws_cloudwatch_event_rule.health_notifier_event_rule.name
+  target_id = var.event_target_id
+  arn       = aws_lambda_function.lambda_health.arn
+}

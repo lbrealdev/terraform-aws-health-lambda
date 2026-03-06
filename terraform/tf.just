@@ -1,5 +1,7 @@
 # Terraform Justfile
 
+set dotenv-path := "{{ justfile_directory() }}/.env"
+
 # Initialize terraform (download providers, modules, and initialize backend)
 @init:
     terraform init
@@ -7,7 +9,11 @@
 # Create a plan and save it to a file
 # Usage: just plan "-var-file=tfvars/dev.tfvars"
 @plan *var:
-    terraform plan -out plan {{ var }}
+    terraform plan -out plan \
+        -var "github_token=$GITHUB_TOKEN" \
+        -var "github_owner=$GITHUB_OWNER" \
+        -var "github_repo=$GITHUB_REPO" \
+        {{ var }}
 
 # Apply the saved plan
 @apply:
