@@ -10,8 +10,12 @@ crash.*.log
 *.secret
 *.backup
 .terragrunt-cache/
+.terraformrc
+terraform.rc
+
 plan
 *.plan
+destroy
 
 # Rust
 target/
