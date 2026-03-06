@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "terraform"
+      - "dependencies"
+    groups:
+      terraform:
+        patterns:
+          - "*"
