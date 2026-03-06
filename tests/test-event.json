@@ -1,0 +1,1 @@
+{"detail": {"eventTypeCode": "AWS_EC2_INSTANCE_METADATA_QUOTA_LIMIT", "service": "EC2", "region": "eu-central-1", "eventTypeCategory": "issue", "arn": "arn:aws:ec2:eu-central-1:123456789012:instance/i-1234567890abcdef0", "startTime": "2026-03-06T10:00:00Z"}}
