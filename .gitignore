@@ -19,6 +19,7 @@ destroy
 
 # Lambda
 lambda.zip
+response.json
 
 # Rust
 target/
