@@ -12,5 +12,29 @@ variable "eventbridge_rule_name" {
 variable "eventbridge_rule_description" {
   description = "The description of the eventbridge rule"
   type        = string
-  default     = "AWS EventBridge rule for AWS Health."
+  default     = "EventBridge rule for AWS Health."
 }
+
+# AWS Lambda Variables (Function + CloudWatch Log Group + IAM Role)
+
+#----------------------------------
+# Lambda variables
+#----------------------------------
+
+variable "function_name" {
+  description = "Unique name for your Lambda Function."
+  type        = string
+  default     = "health-notifier"
+}
+
+# variable "handler" {
+#   description = "Function entrypoint in your code."
+#   type        = string
+#   default     = "main.lambda_handler"
+# }
+#
+# variable "runtime" {
+#   description = "Identifier of the function's runtime."
+#   type        = string
+#   default     = "python3.12"
+# }
