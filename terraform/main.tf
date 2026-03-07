@@ -9,7 +9,7 @@ module "aws-health-notifier" {
   memory_size     = 128
   runtime         = "python3.12"
   handler         = "handler.lambda_handler"
-  lambda_zip_path = "../lambda.zip"
+  lambda_zip_path = "${path.cwd}/../lambda.zip"
 
   # GitHub configuration
   github_token = var.github_token
