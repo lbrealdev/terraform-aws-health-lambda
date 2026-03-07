@@ -29,6 +29,10 @@ set dotenv-path := "{{ justfile_directory() }}/.env"
 @validate:
     terraform validate
 
+# Generate/update terraform documentation
+@docs:
+    terraform-docs markdown table --output-file=README.md --output-mode=replace .
+
 # terraform recipes for manages state
 
 # Show terraform state
