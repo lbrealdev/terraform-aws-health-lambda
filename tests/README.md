@@ -47,3 +47,7 @@ aws logs get-log-events \
   --log-group-name /aws/lambda/health-notifier \
   --log-stream-name <stream-name>
 ```
+
+## Resources
+
+- https://registry.terraform.io/providers/hashicorp/aws/latest/docs/actions/events_put_events

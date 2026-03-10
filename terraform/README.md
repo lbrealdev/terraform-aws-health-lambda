@@ -1,37 +1,32 @@
-# Terraform Module
-
-## Prerequisites
-
-<!-- Add prerequisites content here -->
-
-## Authentication
-
-<!-- Add authentication content here -->
-
-## Usage
-
-<!-- Add usage examples here -->
-
-## Inputs
-
-<!-- Add inputs documentation here -->
-
-## Outputs
-
-<!-- Add outputs documentation here -->
-
-## Resources
-
-<!-- Add resources created here -->
-
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-<!-- Add requirements here -->
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0 |
 
 ## Providers
 
-<!-- Add providers here -->
+No providers.
 
 ## Modules
 
-<!-- Add modules here -->
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_aws-health-notifier"></a> [aws-health-notifier](#module\_aws-health-notifier) | ./modules/aws-health-notifier | n/a |
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_github_token"></a> [github\_token](#input\_github\_token) | GitHub Personal Access Token with repo scope. | `string` | n/a | yes |
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
