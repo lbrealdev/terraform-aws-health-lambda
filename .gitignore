@@ -18,7 +18,7 @@ plan
 destroy
 
 # Lambda
-lambda.zip
+# lambda.zip
 response.json
 
 # Rust
