@@ -62,6 +62,12 @@ variable "publish" {
   default     = false
 }
 
+variable "tracing_config" {
+  description = "Tracing mode for Lambda function. Set to 'Active' to enable X-Ray tracing, 'PassThrough' to disable."
+  type        = string
+  default     = "PassThrough"
+}
+
 variable "github_token" {
   description = "GitHub Personal Access Token."
   type        = string
@@ -85,8 +91,6 @@ variable "lambda_zip_path" {
   type        = string
   default     = null
 }
-
-# CloudWatch
 
 variable "logging_config" {
   description = "Logging configuration for Lambda function."
@@ -116,4 +120,12 @@ variable "iam_policy_description" {
   description = "Description of the IAM policy for the Lambda function."
   type        = string
   default     = "AWS Health notifier lambda CloudWatch policy"
+}
+
+# CloudWatch
+
+variable "log_group_retention_in_days" {
+  description = "Number of days to retain CloudWatch Log Group events."
+  type        = number
+  default     = 7
 }

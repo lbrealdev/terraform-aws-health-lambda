@@ -4,7 +4,7 @@
 
 resource "aws_cloudwatch_log_group" "lambda_health_cw_lg" {
   name              = "/aws/lambda/${var.function_name}"
-  retention_in_days = 7
+  retention_in_days = var.log_group_retention_in_days
 
   tags = {
     Environment = "dev"
@@ -83,6 +83,10 @@ resource "aws_lambda_function" "lambda_health" {
     log_format            = var.logging_config.log_format
     application_log_level = var.logging_config.application_log_level
     system_log_level      = var.logging_config.system_log_level
+  }
+
+  tracing_config {
+    mode = var.tracing_config
   }
 
   depends_on = [
